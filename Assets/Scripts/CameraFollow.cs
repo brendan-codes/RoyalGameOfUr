@@ -3,18 +3,33 @@
 public class CameraFollow : MonoBehaviour
 {
 
+    void Start(){
+        gameState = GameObject.FindObjectOfType<gameStateController>();
+
+        originalCamera = thisCam;
+    }
+
+    gameStateController gameState;
+
     public Transform target;
 
     public float smoothSpeed = 0.125f;
-    public float cameraSize = 0.5f;
+    public float cameraSize = 6f;
 
     public Camera thisCam;
     public Vector3 offset;
 
+    public Camera originalCamera;
+
+    // thisCam.orthographicSize = cameraSize;
 
     void LateUpdate(){ // like update, but later
-        transform.position = target.position + offset;
-        // thisCam.orthographicSize = thisCam.orthographicSize + cameraSize;
+
+        Debug.Log(gameState.isMoving);
+
+        if(gameState.isMoving){
+            transform.position = target.position + offset;
+        }
     }
 
 

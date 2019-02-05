@@ -14,6 +14,8 @@ public class gameStateController : MonoBehaviour
     // - selectedTile: what's the tile that's being moved?
 
 
+    public bool isMoving = false;
+
 
 
 

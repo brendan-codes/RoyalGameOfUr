@@ -9,6 +9,7 @@ public class Stone : MonoBehaviour
     void Start()
     {
         theDiceTray = GameObject.FindObjectOfType<DiceTray>(); 
+        gameState = GameObject.FindObjectOfType<gameStateController>();
 
         if(StartingSlot){
             targetPosition = StartingSlot.transform.position;
@@ -16,6 +17,7 @@ public class Stone : MonoBehaviour
     }
 
     DiceTray theDiceTray;
+    gameStateController gameState;
 
 
     Vector3 targetPosition;
@@ -34,7 +36,9 @@ public class Stone : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if(gameState.isMoving){
+            Debug.Log(gameState.isMoving);
+        }
         // if position is a reasonable distance from the target
         if( Vector3.Distance(this.transform.position, targetPosition) < smoothDistance ){
             // if we still have moves in our queue
@@ -43,6 +47,8 @@ public class Stone : MonoBehaviour
                 SetNewTarget( moveQueue[moveQueueIndex].transform.position );
                 // move the index
                 moveQueueIndex++;
+            }else{
+                gameState.isMoving = false;
             }
         }
         
@@ -62,6 +68,8 @@ public class Stone : MonoBehaviour
 
     void OnMouseUp(){
 
+        
+
         // if the dice tray is done
         if(!theDiceTray.IsDoneRolling){
             return;
@@ -78,6 +86,8 @@ public class Stone : MonoBehaviour
 
         // start the pointer
         Tile endingTile = CurrentTile;
+
+        gameState.isMoving = true;
 
         // loop spaces to move
         for (int i = 0; i < spacesToMove; i++)
